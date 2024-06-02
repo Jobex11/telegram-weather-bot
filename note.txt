@@ -1,0 +1,139 @@
+time-> 7:31
+
+6557613409:AAGNP-oTvQzReDl3meB3iIIfvOjobZQfHXg
+
+url  == > t.me/jobweatherbot
+
+open weather api key 
+980b65f06bebdac8ed55848163032082
+
+unsplash api
+ijuAhvhwNrM0VFciTF_mBZ3e2OuOO2o4VDGGhzffH_Y
+
+google map api
+
+
+
+
+-> read npm telegram bot docs
+
+
+Test it with url on the browser
+https://api.openweathermap.org/data/2.5/weather?q=delhi&appid=980b65f06bebdac8ed55848163032082
+
+replit
+uptimeRobot
+
+==== npm installation ====
+- npm init (initialize node js package)
+- npm i node-telegram-bot-api
+- npm i axios(for api fetching)
+- npm i nodemon(to run the server just like npm start)
+
+bot.on("message", async (msg) => {
+  const chatId = msg.chat.id;
+  const userInput = msg.text;
+  const message = "hello";
+  bot.sendMessage(chatId, message);
+});
+ to send text-Message
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ To create a weather bot that fetches the map location and an image of the city along with the weather conditions, you can use the Google Maps Static API for the map location and the Unsplash API for the city image. Here is how you can integrate these APIs into your weather bot:
+
+1. **Sign Up for Unsplash API**: Get an API key from [Unsplash Developers](https://unsplash.com/developers).
+2. **Sign Up for Google Maps Static API**: Get an API key from [Google Cloud Platform](https://cloud.google.com/maps-platform/).
+
+### Complete Code with Both APIs Integrated
+
+```javascript
+const TelegramBot = require("node-telegram-bot-api");
+const axios = require("axios");
+
+const token = "YOUR_TELEGRAM_BOT_TOKEN";
+const bot = new TelegramBot(token, { polling: true });
+
+const unsplashAccessKey = 'YOUR_UNSPLASH_ACCESS_KEY';
+const googleMapsApiKey = 'YOUR_GOOGLE_MAPS_API_KEY';
+
+bot.on("message", async (msg) => {
+  const chatId = msg.chat.id;
+  const userInput = msg.text;
+
+  try {
+    // Fetch weather data
+    const weatherResponse = await axios.get(
+      `https://api.openweathermap.org/data/2.5/weather?q=${userInput}&appid=YOUR_OPENWEATHER_API_KEY`
+    );
+    const weatherData = weatherResponse.data;
+    const weather = weatherData.weather[0].description;
+    const temperature = weatherData.main.temp - 273.15; // Kelvin to Celsius
+    const city = weatherData.name;
+    const humidity = weatherData.main.humidity;
+    const pressure = weatherData.main.pressure;
+    const windSpeed = weatherData.wind.speed;
+
+    // Fetch image from Unsplash
+    const imageResponse = await axios.get(
+      `https://api.unsplash.com/search/photos?query=${city}&client_id=${unsplashAccessKey}&per_page=1`
+    );
+    const imageUrl = imageResponse.data.results[0].urls.regular;
+
+    // Fetch map image from Google Maps Static API
+    const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${city}&zoom=12&size=600x400&key=${googleMapsApiKey}`;
+
+    const message = `The weather in ${city} is ${weather} with a temperature of ${temperature.toFixed(
+      2
+    )}°C. The humidity is ${humidity}%, the pressure is ${pressure} hPa, and the wind speed is ${windSpeed} m/s.`;
+
+    // Send the map image first
+    await bot.sendPhoto(chatId, mapUrl, { caption: `Map of ${city}` });
+    // Send the city image
+    await bot.sendPhoto(chatId, imageUrl, { caption: `Image of ${city}` });
+    // Send the weather details
+    await bot.sendMessage(chatId, message);
+  } catch (error) {
+    bot.sendMessage(chatId, "City does not exist or an error occurred.");
+  }
+});
+```
+
+### Steps Explained
+
+1. **Fetch Weather Data**: Retrieve weather information from OpenWeather API.
+2. **Fetch City Image**: Use the Unsplash API to get a relevant image of the city.
+3. **Fetch Map Location**: Use the Google Maps Static API to get a map image of the city.
+4. **Send Map Image**: Send the map image first with a caption.
+5. **Send City Image**: Send the city image next with a caption.
+6. **Send Weather Information**: Finally, send the weather details as a message.
+
+### Important Notes
+- **Replace Placeholder Tokens**: Ensure you replace `YOUR_TELEGRAM_BOT_TOKEN`, `YOUR_UNSPLASH_ACCESS_KEY`, `YOUR_GOOGLE_MAPS_API_KEY`, and `YOUR_OPENWEATHER_API_KEY` with your actual API keys.
+- **Error Handling**: The code includes basic error handling to notify users if the city is not found or an error occurs.
+- **API Rate Limits**: Be aware of the rate limits for each API and handle them appropriately.
+
+This complete solution will provide the map location, an image of the city, and the weather conditions when a user inputs a city name in your Telegram bot.
