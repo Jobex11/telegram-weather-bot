@@ -65,9 +65,6 @@ pm2 start your_bot_script.js --name=my-telegram-bot
 
 
 
-
-
-
  To create a weather bot that fetches the map location and an image of the city along with the weather conditions, you can use the Google Maps Static API for the map location and the Unsplash API for the city image. Here is how you can integrate these APIs into your weather bot:
 
 1. **Sign Up for Unsplash API**: Get an API key from [Unsplash Developers](https://unsplash.com/developers).

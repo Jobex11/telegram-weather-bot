@@ -27,11 +27,11 @@ To use JobWeatherBot, follow these steps:
 
 ## Screenshots
 
-![JobWeatherBot Screenshot](/path/to/screenshot.png)
+![JobWeatherBot Screenshot](/assets/Job Weatherbot.png)
 
 ## Feedback and Support
 
-For any feedback, suggestions, or issues, please contact the bot developer at [developer@example.com](mailto:developer@example.com).
+For any feedback, suggestions, or issues, please contact the bot developer at [developer@example.com](mailto:lawaljob33@gmail.com).
 
 ## License
 
