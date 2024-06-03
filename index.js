@@ -5,6 +5,13 @@ const axios = require("axios");
 const token = process.env.TELEGRAM_BOT_TOKEN;
 const bot = new TelegramBot(token, { polling: true });
 
+bot.onText(/\/start/, (msg) => {
+  const chatId = msg.chat.id;
+  const welcomeMessage =
+    "Welcome dear 💦🫧. I am here to show you the weather condition of any city. Type the name of a city 🌨❄️🌧.";
+  bot.sendMessage(chatId, welcomeMessage);
+});
+
 bot.on("message", async (msg) => {
   const chatId = msg.chat.id;
   const userInput = msg.text;

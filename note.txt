@@ -42,8 +42,13 @@ bot.on("message", async (msg) => {
 
 
 
+TIPS TO KNOW ABOUT TELEGRAM DEPLOYMENT 
 
-
+A telegram bot, is usually a long running nodejs script that listens to 
+messand and responds accordingly. 
+-use p,2 for process management or handling it in your bot script. 
+npm install pm2 -g
+pm2 start your_bot_script.js --name=my-telegram-bot
 
 
 
